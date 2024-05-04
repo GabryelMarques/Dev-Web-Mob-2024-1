@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Login GAP's</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css'%}">
+</head>
+<body>
+    <form action="/" method="POST">
+        {% csrf_token %}
+
+        <div class="main-login">
+            <div class="left-login">
+                <h1>Faça login <br>E veja seu sport em Palmas</h1>
+                <img src="{% static 'img/Sport family-amico.svg' %}" class="left-login-image" alt="Animação do livros">
+
+                
+            </div>
+            <div class="rigth-login">
+                <div class="card-login">
+                    <h1>GAP's</h1>
+                    <div class="textfield">
+                        <label for="usuario">Usuário</label>
+                        <input type="text" name="usuario" id="usuario" placeholder="digite seu usuário" value="{{ usuario }}" class="form-control" />
+                    
+                    </div>
+                    <div class="textfield">
+                        <label for="senha">Senha</label>
+                        <input type="password" name="senha" id="senha" placeholder="digite sua senha" value="{{ senha }}" class="form-control" />
+                    </div>
+                    <button type="submit" class="btn-login">Entrar</button>
+                    
+                    <div class="links">
+                        <p class="message">Ainda não tem conta?</p>
+                        <a href="#" class="signup-link">Cadastre-se</a>
+                        <br>
+                        <a href="#" class="forgot-password-link">Esqueci a senha</a>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </form>
+
+    {% if mensagem %}
+    <div class="alert alert-danger" role="alert">
+        {{ mensagem }}
+    </div>
+    {% endif %}
+</body>
+</html>
