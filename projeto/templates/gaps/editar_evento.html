@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %} Editar evento {% endblock %}
+
+{% block content %}
+    <div class="offset-1 col-10 list-div">
+        <h1>Editar Evento</h1>
+        <form action="/gaps/editar_evento/{{ object.pk }}/" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <center>
+                <button type="submit" class="btn btn-success btn-lg">Salvar alterações</button>
+            </center>
+        </form>
+    </div>
+{% endblock %}

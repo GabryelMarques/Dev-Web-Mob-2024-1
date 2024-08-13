@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Login GAP's</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body class="login-page">
+    <form action="/" method="POST">
+        {% csrf_token %}
+        <div class="main-login">
+            <div class="container-login">
+                <div class="card-login">
+                    <h1>GAP's</h1>
+                    <div class="textfield">
+                        <label for="email">Usuário</label>
+                        <input type="email" name="email" id="email" placeholder="digite seu email" value="{{ email }}" class="form-control" required/>
+                    </div>
+                    <div class="textfield">
+                        <label for="senha">Senha</label>
+                        <input type="password" name="senha" id="senha" placeholder="digite sua senha" value="{{ senha }}" class="form-control" required/>
+                    </div>
+                    <button type="submit" class="btn-login">Entrar</button>
+                    <div class="links">
+                        <p class="message">Ainda não tem conta?</p>
+                        <a href="/gaps/add_cliente" class="signup-link">Cadastre-se</a>
+                        <br>
+                        <a href="#" class="forgot-password-link">Esqueci a senha</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    {% if mensagem %}
+    <div class="alert alert-danger" role="alert">
+        {{ mensagem }}
+    </div>
+    {% endif %}
+</body>
+</html>
