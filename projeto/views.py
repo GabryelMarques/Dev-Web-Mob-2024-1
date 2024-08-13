@@ -3,35 +3,38 @@ from django.views.generic import View
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate,  login, logout
 from django.conf import settings
-
+from django.contrib.auth import get_user_model
 
 class Login(View):
-
-    def get(self,request):
-        contexto = {'menssagem': ''}
-        if  request.user.is_authenticated:
-            return HttpResponse('Usuario ja esta logado!')
-        else: 
-            return render(request, 'autenticacao.html',contexto)
-            #return redirect("/veiculos")
-    
+    def get(self, request):
+        contexto = {'mensagem': ''}
+        if request.user.is_authenticated:
+            return redirect("/gaps")
+        else:
+            return render(request, 'autenticacao.html', contexto)
 
     def post(self, request):
-    
-        #obtem as credencias de autennticação do formulario
-        usuario = request.POST.get('usuario', None )
-        senha = request.POST.get('senha', None )
-        # verificaca as credencias de autenticacao fornecidas 
-        user = authenticate(request, username=usuario, password=senha)
-        if user is not None: 
-        #verifica se o usuario ainda esta ativo no sistema
-            if user.is_active:
-                login(request, user)
-                return HttpResponse('Usuario autenticado com sucesso!')
-               # return redirect("/veiculo")
-            return render(request, 'autenticacao.html',{'mensagem': 'Usuario inatiovo '} )
+        # obtem as credenciais de autenticação do formulário
+        email = request.POST.get('email', None)
+        senha = request.POST.get('senha', None)
         
-        return render(request, 'autenticacao.html', {'mensagem': 'Usuario ou senha incorreta'})
+        # verificando as credenciais de autenticação fornecidas
+        UserModel = get_user_model()
+        try:
+            user = UserModel.objects.get(email=email)
+        except UserModel.DoesNotExist:
+            user = None
+        
+        # Se o usuário existe, autentique com o nome de usuário e senha
+        if user is not None:
+            user = authenticate(request, username=user.username, password=senha)
+            if user is not None and user.is_active:
+                login(request, user)
+                return redirect("/gaps")
+            return render(request, 'autenticacao.html', {'mensagem': 'Usuário inativo'})
+        
+        return render(request, 'autenticacao.html', {'mensagem': 'Email ou senha incorreta'})
+
 
 
 class Logout(View):

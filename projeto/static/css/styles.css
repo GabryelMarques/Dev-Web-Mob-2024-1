@@ -1,42 +1,22 @@
 
-
 /* login */
-
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap');
 
 body{
     margin: 0;
     font-family: 'Open Sans', sans-serif;
+    background-color: #ffffff;
 }
 
 .main-login{
     width: 100vw;
     height: 100vh;
-    background-color: #ffffff;
+    background-color: #000000;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.left-login{
-    width: 50vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.left-login > h1 {
-    font-size: 3vw;
-    color: #000000;
-}
-
-.left-login-image{
-    width: 45vh;
-}
-
-.rigth-login{
+.container-login{
     width: 50vw;
     height: 100vh;
     display: flex;
@@ -130,4 +110,10 @@ body{
     color: rgb(63, 63, 255);
     text-decoration: none;
     margin-top: 5px;
+}
+
+/*listar eventos*/
+
+.btn-spacing {
+    margin: 10px;
 }

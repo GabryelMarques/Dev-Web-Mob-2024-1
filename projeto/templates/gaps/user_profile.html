@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Perfil do Usuário{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">Perfil do Usuário</h2>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <p><strong>Nome:</strong> {{ user.username }}</p>
+                        <p><strong>Email:</strong> {{ user.email }}</p>
+                    </div>
+
+                    <h3 class="mb-3">Eventos Inscritos</h3>
+                    <ul class="list-group">
+                        {% if inscricoes %}
+                            {% for inscricao in inscricoes %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{ inscricao.evento.titulo }} - {{ inscricao.evento.data }}
+                                    <form method="post" action="{% url 'cancelar-inscricao' inscricao.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger btn-sm">Cancelar Inscrição</button>
+                                    </form>
+                                </li>
+                            {% endfor %}
+                        {% else %}
+                            <li class="list-group-item text-muted">Você não está inscrito em nenhum evento.</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

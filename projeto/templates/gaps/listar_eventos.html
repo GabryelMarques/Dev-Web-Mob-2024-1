@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Eventos{% endblock %}
+
+{% block content %}
+    <div class="container mt-5 dark-theme">
+        <div class="row justify-content-center">
+            <div class="col-md-200">
+                <div class="card bg-dark text-white">
+                    <div class="card-header text-center">
+                        <h2 class="mb-0">Eventos PMW</h2>
+                    </div>
+                    <div class="card-body">
+                        <form method="GET" action="{% url 'listar-eventos' %}" class="mb-4">
+                            <div class="input-group">
+                                <input type="text" name="termo_de_pesquisa" class="form-control" placeholder="Pesquisar eventos..." value="{{ request.GET.termo_de_pesquisa }}">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit">Pesquisar</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span><strong>{{ eventos|length }}</strong> Evento(s)</span>
+                            <a href="{% url 'cadastrar-eventos' %}" class="btn btn-success">
+                                <i class="fas fa-plus"></i> Adicionar Evento
+                            </a>
+                        </div>
+                        
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div id="alert-message" class="alert alert-success" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        
+                        <ul class="list-group list-group-flush">
+                            {% for e in eventos %}
+                                <li class="list-group-item bg-secondary text-white mb-3 rounded">
+                                    <div class="row">
+                                        <div class="col-md-4 d-flex align-items-center">
+                                            {% if e.foto %}
+                                                <img src="{{ e.foto.url }}" class="img-fluid rounded w-100 event-photo" alt="Foto do evento">
+                                            {% else %}
+                                                <p class="text-center">Sem foto disponível</p>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h5 class="mt-0">{{ e.titulo }}</h5>
+                                            <p>{{ e.descricao }}</p>
+                                            <p><strong>Data:</strong> {{ e.data }}</p>
+                                            <p><strong>Hora:</strong> {{ e.hora }}</p>
+                                            <p><strong>Local:</strong> {{ e.local }}</p>
+                                            <div class="d-flex justify-content-end">
+                                                {% if e.criador == request.user %}
+                                                    <a href="/gaps/editar_evento/{{e.id}}" class="btn btn-primary btn-spacing">
+                                                        <i class="fas fa-pencil-alt"></i> Editar
+                                                    </a>
+                                                    <button type="button" class="btn btn-danger btn-spacing" onclick="confirmarExclusao('{{ e.id }}')">
+                                                        <i class="fas fa-trash"></i> Excluir
+                                                    </button>
+                                                {% endif %}
+                                                <a href="{% url 'inscrever-evento' e.id %}" class="btn btn-info btn-spacing">
+                                                    <i class="fas fa-sign-in-alt"></i> Inscrever-se
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
